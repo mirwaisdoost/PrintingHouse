@@ -1,0 +1,80 @@
+﻿@model PrintingHouse.Models.SubAccount
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>SubAccount</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AccountId" class="control-label"></label>
+                <input type="text" class="form-control" id="AccountId"/>
+                <input type="text" class="form-control" id="Account"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" id="name"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" onclick="Create();" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts{
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery/jquery-ui.js"></script>
+    <script>
+    function Create() {
+        var AccountID = $("#AccountId").val();
+        var name = $("#name").val();
+        $.ajax({
+            type: "POST",
+            async: true,
+            url: '@Url.Action("Create","SubAccounts")',
+            data: { AccountID: AccountID, name: name},
+            dataType: "html",
+            success: function (r) {
+                location.href = '/SubAccounts';
+            },
+            error: function (xhr) { alert("Error!"); }
+        });
+
+    }
+        $("#Account").autocomplete({
+            open: function (event, ui) {
+                $("#AccountId").val(0);
+            },
+
+            source: function (request, response) {
+                $.getJSON(
+                    '@Url.Action("AutoCompleteAccountSelect","SubAccounts")',
+                    { term: request.term },
+                    response
+                );
+            },
+            minLenght: 1,
+            autoFocus: true,
+
+            select: function (event, ui) {
+                $("#AccountId").val(ui.item.id);
+                this.value = ui.item.label;
+                return false;
+            },
+            close: function (event, ui) { }
+        });
+    </script>
+}

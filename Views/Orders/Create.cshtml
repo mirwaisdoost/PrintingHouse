@@ -1,0 +1,93 @@
+﻿@model PrintingHouse.Models.Order
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" id="Date" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderDeadline" class="control-label"></label>
+                <input asp-for="OrderDeadline" class="form-control" id="orderDeadline" />
+                <span asp-validation-for="OrderDeadline" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Customer:</label>
+                <input class="form-control" id="customer"/>
+            </div>
+            <div class="form-group">
+                <input type="button" value="Create" class="btn btn-outline-dark" onclick="Create();"/>
+            </div>
+        </form>
+    </div>
+    <input type="hidden" id="AutoCustomerID"/>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
+@section Scripts{
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery/jquery-ui.js"></script>
+    <script>
+        function Create() {
+            var Date = $("#Date").val();
+            var orderDeadline = $("#orderDeadline").val();
+            var customerId = $("#AutoCustomerID").val();
+
+            alert(Date + " " + orderDeadline+ " " +customerId);
+            $.ajax({
+                type: "POST",
+                async: true,
+                url: '@Url.Action("Create","Orders")',
+                data: { date: Date, orderdeadlin: orderDeadline, customerID: customerId },
+                dataType: "html",
+                success: function (r) {
+                    location.href = '/Orders';
+                },
+                error: function (xhr) { alert("Error!"); }
+            });
+
+        }
+
+    $("#customer").autocomplete({
+        open: function (event, ui) {
+            $("#AutoCustomerID").val(0);
+        },
+
+        source: function (request, response) {
+            $.getJSON(
+                '@Url.Action("AutoCompleteCustomerSelect","Orders")',
+                { term: request.term },
+                response
+            );
+        },
+        minLenght: 1,
+        autoFocus: true,
+
+        select: function (event, ui) {
+            $("#AutoCustomerID").val(ui.item.id);
+            this.value = ui.item.label;
+            return false;
+        },
+        close: function (event, ui) { }
+    });
+
+
+    </script>
+}

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<PrintingHouse.Models.Suplier>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card m-2">
+    <div class="card-header">
+        <div class="row">
+            <h4 class="font-weight-light col col-10">Suplier List</h4>
+            <div class="col col-2">
+                <a asp-action="Create" class="btn btn-outline-secondary float-right "><i class="fas fa-plus"></i> Create New</a>
+            </div>
+        </div>
+       
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-hover">
+            <thead class="table-sm">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Balance)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="table-sm">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Balance)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.SuplierId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.SuplierId">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.SuplierId">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+  
+</div>
+
+        
+       
+
+

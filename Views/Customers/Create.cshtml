@@ -1,0 +1,61 @@
+﻿@model PrintingHouse.Models.Customer
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>Customer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" id="name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" id="email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="button" value="Create" class="btn btn-default" onclick="Create();" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+@section Scripts{
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery/jquery-ui.js"></script>
+    <script>
+    function Create() {
+        var name = $("#name").val();
+        var email = $("#email").val();
+        alert(name + " " + email);
+        $.ajax({
+            type: "POST",
+            async: true,
+            url: '@Url.Action("Create","Customers")',
+            data: { CustomerName: name, CustomerEmail: email },
+            dataType: "html",
+            success: function (r) {
+                location.href = '/Customers';
+            },
+            error: function (xhr) { alert("Error!"); }
+        });
+    }
+
+
+    </script>
+}

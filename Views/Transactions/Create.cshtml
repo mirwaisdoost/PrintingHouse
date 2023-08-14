@@ -1,0 +1,131 @@
+﻿@model PrintingHouse.Models.Transaction
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>Transaction</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" id="Date" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SuplierId" class="control-label"></label>
+                
+                <input type="hidden" class="form-control" id="SuplierId" />
+                <input type="text" class="form-control" id="Suplier" />
+            </div>
+            <div class="form-group">
+                <label asp-for="SubAccountId" class="control-label"></label>
+                <input type="hidden" class="form-control" id="SubAccountId" />
+                <input type="text" class="form-control" id="SubAccount" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Credit" class="control-label"></label>
+                <input type="text" class="form-control" id="Credit" />
+                <span asp-validation-for="Credit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Debit" class="control-label"></label>
+                <input type="text" class="form-control" id="Debit" />
+                <span asp-validation-for="Debit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input type="text" class="form-control" id="Description" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="button" value="Create" class="btn btn-default" onclick="Create();" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts{
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery/jquery-ui.js"></script>
+    <script>
+        function Create() {
+            var Date = $("#Date").val();
+            var suplierID = $("#SuplierId").val();
+            var subaccountID = $("#SubAccountId").val();
+            var credit = $("#Credit").val();
+            var debit = $("#Debit").val();
+            var description = $("#Debit").val();
+                
+            $.ajax({
+                type: "POST",
+                async: true,
+                url: '@Url.Action("Create","Transactions")',
+                data: { date: Date, suplierID: suplierID, subaccountID: subaccountID, credit: credit, debit: debit, description: description },
+                dataType: "html",
+                success: function (r) {
+                    location.href = '/Transactions';
+                },
+                error: function (xhr) { alert("Error!"); }
+            });
+
+        }
+
+        $("#Suplier").autocomplete({
+            open: function (event, ui) {
+                $("#SuplierId").val(0);
+            },
+
+            source: function (request, response) {
+                $.getJSON(
+                    '@Url.Action("AutoCompleteSuplierSelect","Transactions")',
+                    { term: request.term },
+                    response
+                );
+            },
+            minLenght: 1,
+            autoFocus: true,
+
+            select: function (event, ui) {
+                $("#SuplierId").val(ui.item.id);
+                this.value = ui.item.label;
+                return false;
+            },
+            close: function (event, ui) { }
+        });
+
+        $("#SubAccount").autocomplete({
+            open: function (event, ui) {
+                $("#SubAccountId").val(0);
+            },
+
+            source: function (request, response) {
+                $.getJSON(
+                    '@Url.Action("AutoCompleteSubAccountSelect","Transactions")',
+                    { term: request.term },
+                    response
+                );
+            },
+            minLenght: 1,
+            autoFocus: true,
+
+            select: function (event, ui) {
+                $("#SubAccountId").val(ui.item.id);
+                this.value = ui.item.label;
+                return false;
+            },
+            close: function (event, ui) { }
+        });
+
+    </script>
+}

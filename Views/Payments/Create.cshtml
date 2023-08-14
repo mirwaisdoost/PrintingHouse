@@ -1,0 +1,67 @@
+﻿@model PrintingHouse.Models.Payment
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>Payment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OrderId" class="control-label"></label>
+                <input asp-for="OrderId" class="form-control" id="orderID"/>
+            </div>
+            <div class="form-group">
+                <label asp-for="PayedAmount" class="control-label"></label>
+                <input asp-for="PayedAmount" class="form-control" id="amount"/>
+                <span asp-validation-for="PayedAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaymentDate" class="control-label"></label>
+                <input asp-for="PaymentDate" class="form-control" id="date"/>
+                <span asp-validation-for="PaymentDate" class="text-danger"></span>
+
+            </div>
+            <div class="form-group">
+
+                <input type="button" value="Create" class="btn btn-default" onclick="Create();" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts{
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery/jquery-ui.js"></script>
+    <script>
+    function Create() {
+        var PayedAmount = $("#amount").val();
+        var PaymentDate = $("#date").val();
+        var orderId = $("#orderID").val();
+        $.ajax({
+            type: "POST",
+            async: true,
+            url: '@Url.Action("Create","Payments")',
+            data: {orderID:orderId, PayedAmount: PayedAmount, date: PaymentDate },
+            dataType: "html",
+            success: function (r) {
+                location.href = '/Payments';
+            },
+            error: function (xhr) { alert("Error!"); }
+        });
+    }
+    </script>
+    }
+
+
+    

@@ -1,0 +1,257 @@
+﻿@model PrintingHouse.ViewModels.ProductViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>ProductViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ProductName" class="control-label"></label>
+                <input asp-for="ProductName" class="form-control" id="ProductName"/>
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col col-12 mb-2 p-0">
+                    <div class="card h-100 w-100 m-0">
+                        <div class="card-header text-center p-2"> Product Services </div>
+                        <div class="card-body p-3 ">
+                            <div class="input-group mb-1">
+                                <input type="hidden" id="ServiceID" class="form-control" placeholder="Search" />
+                                <input type="hidden" id="ServiceName" class="form-control" placeholder="Search" />
+                                <input id="Service" class="form-control" placeholder="Search" />
+                                <div class="input-group-append">
+                                    <button type="button" class="input-group-text" onclick="AddTable1Row();">Add</button>
+                                </div>
+                            </div>
+                            <div>
+                                <table id="Sickness" class="table table-bordered table-sm">
+                                    <thead class="table-sm text-center">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Option</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-12 mb-2 p-0">
+                    <div class="card h-100 w-100 m-0">
+                        <div class="card-header text-center p-2"> Product Properties </div>
+                        <div class="card-body p-3 ">
+                            <div class="input-group mb-1">
+                                <input type="hidden" id="PropertyID" class="form-control" placeholder="Search" />
+                                <input type="hidden" id="PropertyName" class="form-control" placeholder="Search" />
+                                <span><input id="Property" class="form-control" placeholder="Search" /></span>
+                                <input id="Price" class="form-control" placeholder="0.00" />
+                                <div class="input-group-append">
+                                    <button type="button" class="input-group-text" onclick="AddTable2Row();">Add</button>
+                                </div>
+                            </div>
+                            <div>
+                                <table id="Sickness" class="table table-bordered table-sm">
+                                    <thead class="table-sm text-center">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Price</th>
+                                            <th>Option</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col col-12">
+                <input type="button" value="Create" class="btn btn-primary" onclick="AddProduct();"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts{
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery/jquery-ui.js"></script>   
+    <script>
+
+        
+    function AddProduct() {
+
+        var serviceList = new Array();
+        var table1 = document.getElementsByTagName("table")[0];
+        for (var i = 1; i < table1.rows.length; i++) {
+
+            serviceList.push(table1.rows[i].cells[0].innerHTML);
+        }
+
+        var propertyList = new Array();
+        var priceList = new Array();
+        var table2 = document.getElementsByTagName("table")[1];
+        for (var i = 1; i < table2.rows.length; i++) {
+
+            propertyList.push(table2.rows[i].cells[0].innerHTML);
+            priceList.push(table2.rows[i].cells[2].innerHTML);
+        }
+        
+        var productName = $("#ProductName").val();
+
+        $.ajax({
+            type: "POST",
+            async:true,
+            url: '@Url.Action("AddProduct", "ProductViewModels")',
+            data: { ProductName: productName, ServiceID: serviceList, PropertyID: propertyList, Price: priceList },
+            //contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (data) {
+                //location.href='/PatientRegisterations';
+            },
+            error: function (xhr) { alert("Error"); }
+
+        });
+    }
+
+
+    function AddTable1Row() {
+        var serviceID = $("#ServiceID").val();
+        var serviceName = $("#ServiceName").val();
+        var table = document.getElementsByTagName("table")[0];
+
+        if ($("#Service").val() != '') {
+            var newRow = table.insertRow(table.rows.length);
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+
+            cell1.innerHTML = serviceID;
+            cell2.innerHTML = serviceName;
+            cell3.innerHTML = "<input type='button' name='btnRemove' onclick='RemoveTable1Row();' value='Remove' class='btn btn-outline-danger btn-sm'>";
+        }
+        else {
+            alert("Please select an item!");
+        }
+    }
+
+    function RemoveTable1Row() {
+        var table = document.getElementsByTagName("table")[0], Index;
+        for (var i = 1; i < table.rows.length; i++) {
+            table.rows[i].cells[2].onclick = function () {
+                Index = this.parentElement.rowIndex;
+                table.deleteRow(Index);
+            };
+        }
+    }
+
+    function AddTable2Row() {
+        var propertyID = $("#PropertyID").val();
+        var propertyName = $("#PropertyName").val();
+        var price = $("#Price").val();
+        var table = document.getElementsByTagName("table")[1];
+
+        if ($("#Property").val() != '') {
+            var newRow = table.insertRow(table.rows.length);
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
+
+            cell1.innerHTML = propertyID;
+            cell2.innerHTML = propertyName;
+            cell3.innerHTML = price;
+            cell4.innerHTML = "<input type='button' name='btnRemove' onclick='RemoveTable2Row();' value='Remove' class='btn btn-outline-danger btn-sm'>";
+        }
+        else {
+            alert("Please select an item!");
+        }
+    }
+
+    function RemoveTable2Row() {
+        var table = document.getElementsByTagName("table")[1], Index;
+        for (var i = 1; i < table.rows.length; i++) {
+            table.rows[i].cells[3].onclick = function () {
+                Index = this.parentElement.rowIndex;
+                table.deleteRow(Index);
+            };
+        }
+    }
+
+    $("#Service").autocomplete({
+        
+        open: function (event, ui) {
+            $('#ServiceID').val('0');
+        },
+
+        source: function (request, response) {
+            $.getJSON(
+                '@Url.Action("AutoCompleteServiceSelect", "ProductViewModels")',
+                { term: request.term },
+                response
+            );
+        },
+        minLength: 1,
+        autoFocus: true,
+
+        select: function (event, ui) {
+            //set tagids to save
+            $("#ServiceID").val(ui.item.id);
+            $("#ServiceName").val(ui.item.label);
+            //Tags for display
+            this.value = ui.item.label;
+
+            return false;
+        },
+        close: function (event, ui) { }
+    });
+
+
+
+    $("#Property").autocomplete({
+        
+        open: function (event, ui) {
+            $('#PropertyID').val('0');
+        },
+
+        source: function (request, response) {
+            $.getJSON(
+                '@Url.Action("AutoCompletePropertySelect", "ProductViewModels")',
+                { term: request.term },
+                response
+            );
+        },
+        minLength: 1,
+        autoFocus: true,
+
+        select: function (event, ui) {
+            //set tagids to save
+            $("#PropertyID").val(ui.item.id);
+            $("#PropertyName").val(ui.item.label);
+            //Tags for display
+            this.value = ui.item.label;
+
+            return false;
+        },
+        close: function (event, ui) { }
+    });
+
+    </script>
+
+}

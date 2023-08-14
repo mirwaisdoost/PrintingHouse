@@ -1,0 +1,74 @@
+﻿@model PrintingHouse.Models.Suplier
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div class="row">
+        <div class="col col-3 mx-auto">
+            <div class="card">
+                <div class="card-header"> Add new Suplier</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <form asp-action="Create">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label asp-for="Name" class="control-label"></label>
+                                    <input asp-for="Name" class="form-control" id="name" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Email" class="control-label"></label>
+                                    <input asp-for="Email" class="form-control" id="email" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Balance" class="control-label"></label>
+                                    <input asp-for="Balance" class="form-control" id="balance" />
+                                    <span asp-validation-for="Balance" class="text-danger"></span>
+                                </div>
+                               
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col col-6">
+                            <a href="#" value="Save" class="btn btn-outline-secondary btn-block" onclick="Create();"> <i class="fas fa-save"></i> Save</a>
+                        </div>
+                        <div class="col col-6">
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-block">Back to List</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+@section Scripts{
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery/jquery-ui.js"></script>
+    <script>
+    function Create() {
+        var name = $("#name").val();
+        var email = $("#email").val();
+        $.ajax({
+            type: "POST",
+            async: true,
+            url: '@Url.Action("Create","Supliers")',
+            data: { name: name, email: email },
+            dataType: "html",
+            success: function (r) {
+                location.href = '/Supliers';
+            },
+            error: function (xhr) { alert("Error!"); }
+        });
+    }
+    </script>
+}

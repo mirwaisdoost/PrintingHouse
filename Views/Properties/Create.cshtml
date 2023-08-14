@@ -1,0 +1,51 @@
+﻿@model PrintingHouse.Models.Property
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>Property</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" id="name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="button" value="Create" class="btn btn-default" onclick="Create()" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+@section Scripts{
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery/jquery-ui.js"></script>
+    <script>
+    function Create() {
+        var name = $("#name").val();
+        alert(name);
+        $.ajax({
+            type: "POST",
+            async: true,
+            url: '@Url.Action("Create","Properties")',
+            data: { PropertiesName: name },
+            dataType: "html",
+            success: function (r) {
+                location.href = '/Properties';
+            },
+            error: function (xhr) { alert("Error!"); }
+        });
+    }
+    </script>
+    }

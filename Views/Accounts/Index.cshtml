@@ -1,0 +1,55 @@
+﻿@model IEnumerable<PrintingHouse.Models.Account>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1><div class="card m-2">
+    <div class="card-header">
+        <div class="row">
+            <h4 class="font-weight-light col col-10">Add New Account</h4>
+            <div class="col col-2">
+                <a asp-action="Create" class="btn btn-outline-success float-right "><i class=" fas fa-plus "></i>  Create New</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-hover table-sm">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+
+                    </th>
+                
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="table-sm">
+                        <td>@item.AccountId</td>
+                        
+                        <td>
+
+
+                            <a asp-action="Edit" class="nav-item btn btn-success mr-2 btn-sm" asp-route-id="@item.AccountId"><i class="fas fa-edit"></i>  Edit</a>|
+
+                            <a asp-action="Details" class="nav-item btn btn-success mr-2 btn-sm" asp-route-id="@item.AccountId"><i class="fas fa-object-group"></i>  Details</a>|
+
+                            <a asp-action="Delete" class="nav-item btn btn-danger mr-2 btn-sm" asp-route-id="@item.AccountId"><i class="fas fa-trash"></i>  Delete</a>
+
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+</h1>

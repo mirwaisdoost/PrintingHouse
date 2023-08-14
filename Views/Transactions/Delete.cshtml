@@ -1,0 +1,59 @@
+﻿@model PrintingHouse.Models.Transaction
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Transaction</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Credit)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Credit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Debit)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Debit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+       
+        <dt>
+            @Html.DisplayNameFor(model => model.SubAccount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SubAccount.SubAccountId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Suplier)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Suplier.SuplierId)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="TransactionId" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
