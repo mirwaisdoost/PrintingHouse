@@ -17,7 +17,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyProductAttribute("PrintingHouse")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e4493c02d4123cde200a53e9d0742d7c54eab9d")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PrintingHouse.Views")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 

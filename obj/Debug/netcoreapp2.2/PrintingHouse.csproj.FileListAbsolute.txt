@@ -261,4 +261,5 @@ C:\Users\Mirwais\source\repos\PrintingHouse\obj\Debug\netcoreapp2.2\PrintingHous
 C:\Users\Mirwais\source\repos\PrintingHouse\obj\Debug\netcoreapp2.2\PrintingHouse.dll
 C:\Users\Mirwais\source\repos\PrintingHouse\obj\Debug\netcoreapp2.2\PrintingHouse.pdb
 C:\Users\Mirwais\source\repos\PrintingHouse\obj\Debug\netcoreapp2.2\PrintingHouse.genruntimeconfig.cache
-C:\Users\Mirwais\source\repos\PrintingHouse\obj\Debug\netcoreapp2.2\PrintingHouse.csproj.CopyComplete
+C:\Users\mirwais\source\repos\PrintingHouse\obj\Debug\netcoreapp2.2\PrintingHouse.sourcelink.json
+C:\Users\mirwais\source\repos\PrintingHouse\obj\Debug\netcoreapp2.2\Printing.82E742B7.Up2Date
